@@ -1,30 +1,26 @@
 package com.bernardpaula.lojaEletrodomesticos.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "categoria")
+public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,18 +28,8 @@ public class Cliente {
 	
 	private String nome;
 	
-	private String email;
+	@ManyToMany(mappedBy = "categorias")
+	List<Produto> produtos = new ArrayList<>();
 	
-	private String CpfOuCnpj;
-	
-	private Integer tipo;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
-	private List<Pedido> pedidos = new ArrayList<>();
-	
-	@ElementCollection
-	@CollectionTable(name = "telefones")
-	private Set<String> telefones = new HashSet<>();
-	
+
 }

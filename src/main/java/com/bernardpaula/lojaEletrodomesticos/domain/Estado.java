@@ -1,14 +1,10 @@
 package com.bernardpaula.lojaEletrodomesticos.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,8 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "estado")
+public class Estado {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,18 +28,7 @@ public class Cliente {
 	
 	private String nome;
 	
-	private String email;
-	
-	private String CpfOuCnpj;
-	
-	private Integer tipo;
-	
 	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
-	private List<Pedido> pedidos = new ArrayList<>();
-	
-	@ElementCollection
-	@CollectionTable(name = "telefones")
-	private Set<String> telefones = new HashSet<>();
-	
+	@OneToMany(mappedBy = "estado")
+	private List<Cidade> cidades = new ArrayList<>();
 }

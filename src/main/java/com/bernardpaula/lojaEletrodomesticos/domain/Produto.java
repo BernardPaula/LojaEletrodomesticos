@@ -7,12 +7,13 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "produto")
+public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,18 +33,22 @@ public class Cliente {
 	
 	private String nome;
 	
-	private String email;
+	private String marca;
 	
-	private String CpfOuCnpj;
+	private String descricao;
 	
-	private Integer tipo;
+	private Double preco;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
-	private List<Pedido> pedidos = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "PRODUTO_CATEGORIA",
+			joinColumns = @JoinColumn(name = "Produto_id"),
+			inverseJoinColumns = @JoinColumn(name = "Categoria_id"))
+	private List<Categoria> categorias = new ArrayList<>();
 	
-	@ElementCollection
-	@CollectionTable(name = "telefones")
-	private Set<String> telefones = new HashSet<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "produto")
+	private Set<ItemPedido> itens = new HashSet<>();
+
 	
 }

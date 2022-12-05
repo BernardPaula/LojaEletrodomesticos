@@ -2,8 +2,8 @@ package com.bernardpaula.lojaEletrodomesticos.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -41,11 +41,11 @@ public class Pedido {
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
-	@ManyToOne
-	@JoinColumn(name = "endereco_entrega_id")
-	private Endereco enderecoDeEntrega;
+	//@ManyToOne
+	//@JoinColumn(name = "endereco_entrega_id")
+	//private Endereco enderecoDeEntrega;
 	
 	@OneToMany(mappedBy = "pedido")
-	private Set<ItemPedido> pedidos = new HashSet<>();
+	private List<ItemPedido> itensPedidos = new ArrayList<>();
 	
 }

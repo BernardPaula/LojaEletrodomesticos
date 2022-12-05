@@ -30,6 +30,12 @@ public class Categoria {
 	
 	@ManyToMany(mappedBy = "categorias")
 	List<Produto> produtos = new ArrayList<>();
+
+	public Categoria(Integer id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
 	
 
 }

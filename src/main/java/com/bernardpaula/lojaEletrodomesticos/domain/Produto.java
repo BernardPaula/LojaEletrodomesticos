@@ -49,6 +49,16 @@ public class Produto {
 	@JsonIgnore
 	@OneToMany(mappedBy = "produto")
 	private Set<ItemPedido> itens = new HashSet<>();
+	
+
+	public Produto(Integer id, String nome, String marca, String descricao, Double preco) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.marca = marca;
+		this.descricao = descricao;
+		this.preco = preco;
+	}
 
 	
 }

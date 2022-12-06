@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pagamento_cartao")
+@Table(name = "pagamento_cartoes")
 public class PagamentoCartao extends Pagamento{
 
 	private Integer numeroParcelas;

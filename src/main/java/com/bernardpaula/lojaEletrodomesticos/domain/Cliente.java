@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.Perfil;
+import com.bernardpaula.lojaEletrodomesticos.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -18,13 +19,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "cliente")
+@Table(name = "clientes")
 public class Cliente {
 
 	@Id
@@ -38,7 +37,7 @@ public class Cliente {
 	private String cpfOuCnpj;
 	
 
-	private Integer tipoPerfil;
+	private Integer tipoCliente;
 	
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
@@ -61,15 +60,16 @@ public class Cliente {
 		addPerfil(Perfil.CLIENTE);
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, Integer tipoPerfil) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
 		super();
 		addPerfil(Perfil.CLIENTE);
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipoPerfil = tipoPerfil;
+		this.tipoCliente = (tipo == null) ? null : tipo.getCod();
 	}
+	
 
 
 	public void addPerfil(Perfil perfil) {

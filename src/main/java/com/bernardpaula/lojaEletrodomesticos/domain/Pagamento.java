@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pagamento")
+@Table(name = "pagamentos")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pagamento {
 	

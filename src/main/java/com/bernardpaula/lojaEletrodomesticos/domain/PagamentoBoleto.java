@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pagamento_boleto")
+@Table(name = "pagamento_boletos")
 public class PagamentoBoleto extends Pagamento {
 
 	@JsonFormat(pattern = "dd/MM/yyyy")

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cidade")
+@Table(name = "cidades")
 public class Cidade {
 	
 	@Id

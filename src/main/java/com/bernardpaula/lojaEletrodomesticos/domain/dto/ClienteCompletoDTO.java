@@ -1,5 +1,12 @@
 package com.bernardpaula.lojaEletrodomesticos.domain.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClienteCompletoDTO {
 
 	// cliente
@@ -9,7 +16,7 @@ public class ClienteCompletoDTO {
 
 	private String cpfOuCnpj;
 
-	private Integer tipoPerfil;
+	private Integer tipoCliente;
 	
 
 	// Endereco

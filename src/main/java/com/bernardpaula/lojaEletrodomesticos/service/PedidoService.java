@@ -2,7 +2,6 @@ package com.bernardpaula.lojaEletrodomesticos.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import com.bernardpaula.lojaEletrodomesticos.domain.Pagamento;
 import com.bernardpaula.lojaEletrodomesticos.domain.Pedido;
 import com.bernardpaula.lojaEletrodomesticos.domain.Produto;
 import com.bernardpaula.lojaEletrodomesticos.domain.dto.ItemPedidoDTO;
-import com.bernardpaula.lojaEletrodomesticos.domain.dto.PedidoCompletoDTO;
+import com.bernardpaula.lojaEletrodomesticos.domain.dto.PedidoDTO;
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
 import com.bernardpaula.lojaEletrodomesticos.repositories.ClienteRepository;
 import com.bernardpaula.lojaEletrodomesticos.repositories.PedidoRepository;
@@ -35,20 +34,19 @@ public class PedidoService {
 	}
 	
 	
-	public Pedido salvar(PedidoCompletoDTO dto) {
+	public Pedido salvar(PedidoDTO dto) {
 		
 		Cliente cliente = clienteRepo.findById(dto.getClienteId())
 									.orElseThrow(() -> new ObjectNotFoundException("Id do cliente inválido."));
-		
-		
 		
 		Pedido pedido = new Pedido();
 		pedido.setCliente(cliente);
 		pedido.setDataPedido(LocalDate.now());
 		pedido.setTotal(dto.getTotal());
 		
-		Pagamento pag = new Pagamento(EstadoPagamento.toEnum(dto.getEstado()), pedido);
+		Pagamento pag = new Pagamento(EstadoPagamento.toEnum(dto.getEstadoPagamento()), pedido);
 		pedido.setPagamento(pag);
+		
 		
 		List<ItemPedido> itensPedidos = converterItens(pedido, dto.getItensPedidos());
 		pedido.setItensPedidos(itensPedidos);

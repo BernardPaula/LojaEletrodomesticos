@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardpaula.lojaEletrodomesticos.domain.Pedido;
-import com.bernardpaula.lojaEletrodomesticos.domain.dto.PedidoCompletoDTO;
+import com.bernardpaula.lojaEletrodomesticos.domain.dto.PedidoDTO;
 import com.bernardpaula.lojaEletrodomesticos.service.PedidoService;
 
 @RestController
@@ -23,11 +23,14 @@ public class PedidoController {
 	
 	@PostMapping("/salvar")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Pedido salvar(@RequestBody PedidoCompletoDTO dto) {
+	public Pedido salvar(@RequestBody PedidoDTO dto) {
 		Pedido pedido = service.salvar(dto);
 		return pedido;
 	}
 	
-	
+
+	public Pedido find(Integer id) {
+		
+	}
 	
 }

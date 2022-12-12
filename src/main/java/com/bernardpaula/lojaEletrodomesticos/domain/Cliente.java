@@ -5,12 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.Perfil;
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +22,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
@@ -30,14 +35,21 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotEmpty(message = "{campo.nome.obrigatorio}")
+	@Column(name = "nome")
+	@Length(min=1, max=30, message = "O tamanho do nome deve estar entre 1 e 30 caracteres")
 	private String nome;
 	
+	@Email
+	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "cpf_ou_cnpj")
 	private String cpfOuCnpj;
 	
-
+	@Column(name = "tipo_cliente")
 	private Integer tipoCliente;
+	
 	
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)

@@ -3,6 +3,7 @@ package com.bernardpaula.lojaEletrodomesticos.domain;
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -26,6 +27,7 @@ public class Pagamento {
 	@Id
 	private Integer id;
 	
+	@Column(name = "estado_pagamento")
 	private Integer estado;
 	
 	@JsonIgnore

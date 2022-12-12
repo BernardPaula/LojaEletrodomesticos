@@ -1,16 +1,24 @@
 package com.bernardpaula.lojaEletrodomesticos.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.bernardpaula.lojaEletrodomesticos.domain.Cliente;
 import com.bernardpaula.lojaEletrodomesticos.domain.ItemPedido;
 import com.bernardpaula.lojaEletrodomesticos.domain.Pagamento;
 import com.bernardpaula.lojaEletrodomesticos.domain.Pedido;
 import com.bernardpaula.lojaEletrodomesticos.domain.Produto;
+import com.bernardpaula.lojaEletrodomesticos.domain.dto.InformacoesItemPedidoDTO;
+import com.bernardpaula.lojaEletrodomesticos.domain.dto.InformacoesPedidoDTO;
 import com.bernardpaula.lojaEletrodomesticos.domain.dto.ItemPedidoDTO;
 import com.bernardpaula.lojaEletrodomesticos.domain.dto.PedidoDTO;
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
@@ -18,6 +26,7 @@ import com.bernardpaula.lojaEletrodomesticos.repositories.ClienteRepository;
 import com.bernardpaula.lojaEletrodomesticos.repositories.PedidoRepository;
 import com.bernardpaula.lojaEletrodomesticos.repositories.ProdutoRepository;
 import com.bernardpaula.lojaEletrodomesticos.service.exceptions.ObjectNotFoundException;
+import com.bernardpaula.lojaEletrodomesticos.service.exceptions.PedidoNaoEncontradoException;
 import com.bernardpaula.lojaEletrodomesticos.service.exceptions.RegraNegocioException;
 
 @Service
@@ -75,4 +84,50 @@ public class PedidoService {
 		}).collect(Collectors.toList());
 	}
 	
+	
+	public Pedido buscarPedidoCompleto(Integer id) {
+		Optional<Pedido> pedido = repo.findPedidofetchItens(id);
+			return pedido.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado."));
+	
+	}
+	
+	
+	public InformacoesPedidoDTO converterPedidoCompleto(Pedido pedido) {
+		return InformacoesPedidoDTO.builder()
+									.nomeCliente(pedido.getCliente().getNome())
+									.codigoPedido(pedido.getId())
+									.cpfOuCnpj(pedido.getCliente().getCpfOuCnpj())
+									.dataPedido(pedido.getDataPedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+									.estadoPagamento(pedido.getPagamento().getEstado())
+									.total(pedido.getTotal())
+									.itensPedidos(converterItens(pedido.getItensPedidos()))
+									.build();
+	}
+	
+	private List<InformacoesItemPedidoDTO> converterItens(List<ItemPedido> itens) {
+		
+		if(CollectionUtils.isEmpty(itens)) {
+			return Collections.emptyList();
+		}
+		
+		return itens.stream().map( item ->
+				InformacoesItemPedidoDTO.builder()
+										.desconto(item.getDesconto())
+										.descricao(item.getProduto().getDescricao())
+										.quantidade(item.getQuantidade())
+										.precoUnitario(item.getPreco())
+										.build()
+				).collect(Collectors.toList());
+	}
+	
+	
+	public Pagamento atualizarEstadoPagamentoDoPedido(EstadoPagamento estado, Integer id) {
+		Pedido pedido = repo.findById(id).map( ped -> {
+			ped.setEstado(estado.getCod());
+			repo.save(ped);
+			return ped;
+		}).orElseThrow(() -> new PedidoNaoEncontradoException());
+		
+		return pedido.getPagamento();
+	}
 }

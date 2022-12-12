@@ -20,6 +20,8 @@ import com.bernardpaula.lojaEletrodomesticos.domain.Categoria;
 import com.bernardpaula.lojaEletrodomesticos.domain.dto.CategoriaDTO;
 import com.bernardpaula.lojaEletrodomesticos.service.CategoriaService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/api/categoria")
 public class CategoriaController {

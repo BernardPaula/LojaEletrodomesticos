@@ -1,6 +1,5 @@
 package com.bernardpaula.lojaEletrodomesticos.domain.dto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +19,8 @@ public class InformacoesPedidoDTO {
 	private String nomeCliente;
 	private String dataPedido;
 	private String cpfOuCnpj;
-	private Integer estadoPagamento;
-	private BigDecimal total;
+	private String estadoPagamento;
+	private Double total;
 	private List<InformacoesItemPedidoDTO> itensPedidos;
 
 }

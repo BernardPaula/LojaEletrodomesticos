@@ -18,6 +18,8 @@ import com.bernardpaula.lojaEletrodomesticos.domain.dto.PedidoDTO;
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
 import com.bernardpaula.lojaEletrodomesticos.service.PedidoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidoController {
@@ -30,7 +32,7 @@ public class PedidoController {
 	
 	@PostMapping("/salvar")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Pedido salvar(@RequestBody PedidoDTO dto) {
+	public Pedido salvar(@RequestBody @Valid PedidoDTO dto) {
 		Pedido pedido = service.salvar(dto);
 		return pedido;
 	}

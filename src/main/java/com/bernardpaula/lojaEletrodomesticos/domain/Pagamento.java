@@ -1,5 +1,7 @@
 package com.bernardpaula.lojaEletrodomesticos.domain;
 
+import java.io.Serializable;
+
 import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,10 +24,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "pagamentos")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pagamento {
-	
+public class Pagamento implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	private Integer id;
+	
 	
 	@Column(name = "estado_pagamento")
 	private Integer estado;
@@ -36,11 +40,20 @@ public class Pagamento {
 	@MapsId
 	private Pedido pedido;
 
-	public Pagamento(EstadoPagamento estado, Pedido pedido) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
-		this.estado = (estado == null)? null : estado.getCod();
+		this.id = id;
+		this.estado = (estado == null) ? null : estado.getCod();
 		this.pedido = pedido;
 	}
 	
+	public EstadoPagamento getEstado() {
+		return EstadoPagamento.toEnum(estado);
+	}
+	
+	
+	public void setEstado(EstadoPagamento estado) {
+		this.estado = estado.getCod();
+	}
 
 }

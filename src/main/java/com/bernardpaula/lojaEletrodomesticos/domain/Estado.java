@@ -31,4 +31,13 @@ public class Estado {
 	@JsonIgnore
 	@OneToMany(mappedBy = "estado")
 	private List<Cidade> cidades = new ArrayList<>();
+	
+	
+	public Estado(Integer id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+	
+	
 }

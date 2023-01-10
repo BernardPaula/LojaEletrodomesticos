@@ -1,9 +1,11 @@
 package com.bernardpaula.lojaEletrodomesticos.domain;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,23 +33,22 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "data_pedido")
-	private LocalDate dataPedido;
+	/*@Column(name = "data_pedido")
+	private LocalDate dataPedido;   */
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:dd")
+	private Date instante;
 	
 	@Column(name = "total")
-	private BigDecimal total;
-	
-	@Column(name = "estado")
-	private Integer estado;
-	
-	
+	private Double total;
 
-	@OneToOne(cascade = CascadeType.ALL ,mappedBy = "pedido")
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+	
 	
 	//@ManyToOne
 	//@JoinColumn(name = "endereco_entrega_id")
@@ -55,5 +56,17 @@ public class Pedido {
 	
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itensPedidos = new ArrayList<>();
+	
+
+	public Pedido(Integer id, Date instante, Double total, 
+			Cliente cliente) {
+		super();
+		this.id = id;
+		this.instante = instante;
+		this.total = total;
+		this.cliente = cliente;
+	}
+	
+	
 	
 }

@@ -1,5 +1,7 @@
 package com.bernardpaula.lojaEletrodomesticos.domain;
 
+import com.bernardpaula.lojaEletrodomesticos.domain.enums.EstadoPagamento;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -16,5 +18,14 @@ import lombok.Setter;
 public class PagamentoCartao extends Pagamento{
 
 	private Integer numeroParcelas;
+
+	
+	public PagamentoCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroParcelas) {
+		super(id, estado, pedido);
+		this.numeroParcelas = numeroParcelas;
+	}
+
+
+	
 	
 }

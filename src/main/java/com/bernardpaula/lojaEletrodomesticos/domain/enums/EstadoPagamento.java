@@ -26,4 +26,6 @@ public enum EstadoPagamento {
 		}
 		throw new IllegalArgumentException("Código inválido: " + cod);
 	}
+
+
 }

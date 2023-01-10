@@ -1,8 +1,8 @@
 package com.bernardpaula.lojaEletrodomesticos.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,12 +48,13 @@ public class PedidoService {
 		Cliente cliente = clienteRepo.findById(dto.getClienteId())
 									.orElseThrow(() -> new ObjectNotFoundException("Id do cliente inválido."));
 		
+		
 		Pedido pedido = new Pedido();
 		pedido.setCliente(cliente);
-		pedido.setDataPedido(LocalDate.now());
+		pedido.setInstante(new Date());
 		pedido.setTotal(dto.getTotal());
 		
-		Pagamento pag = new Pagamento(EstadoPagamento.toEnum(dto.getEstadoPagamento()), pedido);
+		Pagamento pag = new Pagamento(null, EstadoPagamento.toEnum(dto.getEstadoPagamento()), pedido);
 		pedido.setPagamento(pag);
 		
 		
@@ -97,8 +98,9 @@ public class PedidoService {
 									.nomeCliente(pedido.getCliente().getNome())
 									.codigoPedido(pedido.getId())
 									.cpfOuCnpj(pedido.getCliente().getCpfOuCnpj())
-									.dataPedido(pedido.getDataPedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-									.estadoPagamento(pedido.getPagamento().getEstado())
+									//.dataPedido(pedido.getDataPedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+									.dataPedido("20/10/2022")
+									.estadoPagamento(pedido.getPagamento().getEstado().getEstadoPag())
 									.total(pedido.getTotal())
 									.itensPedidos(converterItens(pedido.getItensPedidos()))
 									.build();
@@ -123,7 +125,10 @@ public class PedidoService {
 	
 	public Pagamento atualizarEstadoPagamentoDoPedido(EstadoPagamento estado, Integer id) {
 		Pedido pedido = repo.findById(id).map( ped -> {
-			ped.setEstado(estado.getCod());
+			
+			ped.getPagamento().setEstado(estado);
+			
+			//ped.setEstado(estado.getCod());
 			repo.save(ped);
 			return ped;
 		}).orElseThrow(() -> new PedidoNaoEncontradoException());
